@@ -129,6 +129,11 @@ bot.on("message", async (msg) => {
           [msg.from.id]
         );
 
+        let getPromo = await client.query(
+          "SELECT * FROM promocode WHERE id = $1 AND is_active = true",
+          [data.promocode]
+        );
+
         let create = await client.query(
           "INSERT INTO orders(products, total, user_id, promocode_id, username, phone_number, comment, payment_type, exportation) values($1, $2, $3, $4, $5, $6, $7, $8, $9)",
           [
@@ -146,11 +151,6 @@ bot.on("message", async (msg) => {
 
         let percentagePromo = "";
         if (data.promocode !== "") {
-          let getPromo = await client.query(
-            "SELECT * FROM promocode WHERE id = $1 AND is_active = true",
-            [data.promocode]
-          );
-
           const order = await client.query(
             "SELECT * FROM orders WHERE user_id = $1",
             [msg.from.id]
@@ -263,7 +263,7 @@ bot.on("message", async (msg) => {
   <b>Комментарий: ${data.comment !== "" ? `${data.comment}` : "Нет"}</b> %0A
   <b>Промокод: ${
     data.promocode !== ""
-      ? `${data.promocode} - ${percentagePromo}%`
+      ? `${getPromo?.rows[0]?.title} - ${percentagePromo}%`
       : "Не использован"
   }</b> %0A
   %0A
