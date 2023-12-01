@@ -172,7 +172,7 @@ bot.on("message", async (msg) => {
           }
 
           let updatePromo = await client.query(
-            "UPDATE promocode SET usedCount = $1, orders_id = $2 WHERE id = $3",
+            "UPDATE promocode SET used_count = $1, orders_id = $2 WHERE id = $3",
             [usedCount, orders_id, getPromo.rows[0].id]
           );
 
