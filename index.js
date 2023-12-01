@@ -147,7 +147,7 @@ bot.on("message", async (msg) => {
         let percentagePromo = "";
         if (data.promocode !== "") {
           let getPromo = await client.query(
-            "SELECT * FROM promocode WHERE id = $1 AND isActive = true",
+            "SELECT * FROM promocode WHERE id = $1 AND is_active = true",
             [data.promocode]
           );
 
