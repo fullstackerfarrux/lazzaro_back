@@ -178,7 +178,7 @@ bot.on("message", async (msg) => {
 
           if (getPromo.rows[0].usage_limit == getPromo.rows[0].usedcount + 1) {
             let updatePromo = await client.query(
-              "UPDATE promocode SET isActive = false WHERE id = $1",
+              "UPDATE promocode SET is_active = false WHERE id = $1",
               [getPromo.rows[0].id]
             );
           }
