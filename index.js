@@ -129,44 +129,28 @@ bot.on("message", async (msg) => {
           [msg.from.id]
         );
 
-        if (data.payment !== "Click" && data.payment !== "Payme") {
-          let create = await client.query(
-            "INSERT INTO orders(products, total, user_id, username, phone_number, comment, payment_type, exportation, payment_status) values($1, $2, $3, $4, $5, $6, $7, $8, $9)",
-            [
-              data.order_products,
-              `${data?.total}`,
-              msg.from.id,
-              msg.from.first_name,
-              user.rows[0].phone_number,
-              data.comment,
-              data.payment,
-              data.delivery,
-              true,
-            ]
-          );
-        } else {
-          let create = await client.query(
-            "INSERT INTO orders(products, total, user_id, username, phone_number, comment, payment_type, exportation, payment_status) values($1, $2, $3, $4, $5, $6, $7, $8, $9)",
-            [
-              data.order_products,
-              `${data?.total}`,
-              msg.from.id,
-              msg.from.first_name,
-              user.rows[0].phone_number,
-              data.comment,
-              data.payment,
-              data.delivery,
-              false,
-            ]
-          );
-        }
+        let create = await client.query(
+          "INSERT INTO orders(products, total, user_id, promocode_id, username, phone_number, comment, payment_type, exportation) values($1, $2, $3, $4, $5, $6, $7, $8, $9)",
+          [
+            data.order_products,
+            `${data?.total}`,
+            msg.from.id,
+            data.promocode,
+            msg.from.first_name,
+            user.rows[0].phone_number,
+            data.comment,
+            data.payment,
+            data.delivery,
+          ]
+        );
 
         let percentagePromo = "";
         if (data.promocode !== "") {
           let getPromo = await client.query(
-            "SELECT * FROM promocode WHERE title = $1 AND isActive = true",
+            "SELECT * FROM promocode WHERE id = $1 AND isActive = true",
             [data.promocode]
           );
+
           const order = await client.query(
             "SELECT * FROM orders WHERE user_id = $1",
             [msg.from.id]

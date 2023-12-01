@@ -47,7 +47,7 @@ create table orders(
     count serial unique,
     order_id VARCHAR DEFAULT gen_random_uuid(),
     user_id VARCHAR NOT NULL,
-    promocode_id VARCHAR NOT NULL,
+    promocode_id VARCHAR,
     username VARCHAR NOT NULL,
     phone_number VARCHAR NOT NULL,
     total VARCHAR NOT NULL,
