@@ -134,21 +134,6 @@ bot.on("message", async (msg) => {
           [data.promocode]
         );
 
-        let create = await client.query(
-          "INSERT INTO orders(products, total, user_id, promocode_id, username, phone_number, comment, payment_type, exportation) values($1, $2, $3, $4, $5, $6, $7, $8, $9)",
-          [
-            data.order_products,
-            `${data?.total}`,
-            msg.from.id,
-            data.promocode,
-            msg.from.first_name,
-            user.rows[0].phone_number,
-            data.comment,
-            data.payment,
-            data.delivery,
-          ]
-        );
-
         let percentagePromo = "";
         if (data.promocode !== "") {
           const order = await client.query(
@@ -289,13 +274,27 @@ bot.on("message", async (msg) => {
     return text;
   })} %0A
         `;
-
         await axios.post(
           `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&parse_mode=html&text=${message}`
         );
 
         await axios.post(
           `https://api.telegram.org/bot${token}/sendLocation?chat_id=${chat_id}&latitude=${user.rows[0].user_location[0]}&longitude=${user.rows[0].user_location[1]}`
+        );
+
+        let create = await client.query(
+          "INSERT INTO orders(products, total, user_id, promocode_id, username, phone_number, comment, payment_type, exportation) values($1, $2, $3, $4, $5, $6, $7, $8, $9)",
+          [
+            data.order_products,
+            `${data?.total}`,
+            msg.from.id,
+            data.promocode,
+            msg.from.first_name,
+            user.rows[0].phone_number,
+            data.comment,
+            data.payment,
+            data.delivery,
+          ]
         );
 
         await bot.sendMessage(
