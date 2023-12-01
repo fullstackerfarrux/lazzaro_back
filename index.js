@@ -158,7 +158,7 @@ bot.on("message", async (msg) => {
 
           percentagePromo = `${getPromo.rows[0].sale}`;
           let orders_id = [];
-          let usedCount = getPromo.rows[0]?.usedcount + 1;
+          let usedCount = getPromo.rows[0]?.used_count + 1;
           if (
             getPromo.rows[0].orders_id !== undefined &&
             getPromo.rows[0].orders_id?.length > 0
@@ -176,7 +176,7 @@ bot.on("message", async (msg) => {
             [usedCount, orders_id, getPromo.rows[0].id]
           );
 
-          if (getPromo.rows[0].usage_limit == getPromo.rows[0].usedcount + 1) {
+          if (getPromo.rows[0].usage_limit == getPromo.rows[0].used_count + 1) {
             let updatePromo = await client.query(
               "UPDATE promocode SET is_active = false WHERE id = $1",
               [getPromo.rows[0].id]
