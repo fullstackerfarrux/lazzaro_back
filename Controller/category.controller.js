@@ -62,8 +62,13 @@ export const getCategories = async (req, res) => {
       [category.rows[i].category_name]
     );
 
+    let json = {
+      category_id: category.rows[i].category_id,
+      category_name: category.rows[i].category_name,
+    };
+
     if (checkCategory.rowCount > 0) {
-      rightCategories.push(category.rows[i].category_name);
+      rightCategories.push(json);
     }
   }
 
