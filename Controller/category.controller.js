@@ -55,6 +55,14 @@ export const deleteCategory = async (req, res) => {
 export const getCategories = async (req, res) => {
   const category = await client.query("select * from category");
 
+  return res.status(200).json({
+    categories: category.rows,
+  });
+};
+
+export const getCategoriesNot = async (req, res) => {
+  const category = await client.query("select * from category");
+
   const rightCategories = [];
   for (let i = 0; i < category.rowCount; i++) {
     const checkCategory = await client.query(
@@ -74,25 +82,5 @@ export const getCategories = async (req, res) => {
 
   return res.status(200).json({
     categories: rightCategories,
-  });
-};
-
-export const getCategoriesNot = async (req, res) => {
-  const category = await client.query("select * from category");
-
-  const notProduct = [];
-  for (let i = 0; i < category.rowCount; i++) {
-    const checkCategory = await client.query(
-      "select * from product where category_name = $1",
-      [category.rows[i].category_name]
-    );
-
-    if (checkCategory.rowCount > 0) {
-      notProduct.push(category.rows[i].category_name);
-    }
-  }
-
-  return res.status(200).json({
-    categories_not: notProduct,
   });
 };
