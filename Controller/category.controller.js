@@ -69,7 +69,9 @@ export const getCategoriesNot = async (req, res) => {
       [category.rows[i].category_name]
     );
 
-    if (checkCategory.rowCount > 0) {
+    console.log(checkCategory.rowCount);
+
+    if (checkCategory.rowCount <= 0) {
       notProduct.push(category.rows[i].category_name);
     }
   }
