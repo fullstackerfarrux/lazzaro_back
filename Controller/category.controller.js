@@ -75,6 +75,6 @@ export const getCategoriesNot = async (req, res) => {
   }
 
   return res.status(200).json({
-    categories: category.rows,
+    categories_not: notProduct,
   });
 };
