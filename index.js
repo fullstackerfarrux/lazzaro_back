@@ -217,8 +217,8 @@ bot.on("message", async (msg) => {
         }
 
         let sCoords = {
-          latitude: 41.302626,
-          longitude: 69.279813,
+          latitude: 41.2978612,
+          longitude: 69.1715429,
         };
 
         let dCoords = {
