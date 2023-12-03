@@ -58,3 +58,24 @@ export const getCategories = async (req, res) => {
     categories: category.rows,
   });
 };
+
+export const getCategoriesNot = async (req, res) => {
+  const category = await client.query("select * from category");
+
+  const notProduct = [];
+  for (let i = 0; i < category.rowCount; i++) {
+    const checkCategory = await client.query(
+      "select * from product where category_name = $1",
+      [category.rows[i].category_name]
+    );
+
+    if (checkCategory.rowCount < 0) {
+      notProduct.push(category.rows[i].category_name);
+    }
+  }
+
+  console.log(notProduct);
+  return res.status(200).json({
+    categories: category.rows,
+  });
+};
